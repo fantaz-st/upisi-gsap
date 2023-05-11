@@ -5,9 +5,9 @@ import gsap from "gsap";
 import { useLayoutEffect, useEffect, useRef, useState } from "react";
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
+import Button from "./Button";
 gsap.registerPlugin(ScrollToPlugin);
 const Hero = () => {
-  const [ak, setAk] = useState(true);
   const comp = useRef();
   const scrollContainerRef = useRef(null);
 
@@ -47,17 +47,15 @@ const Hero = () => {
               teaching and knowledge <br />
               transfer to future seafarers.
             </p>
-            <Link href='/'>
-              <p className='font-3xl font-bold uppercase'>About us</p>
-            </Link>
+            <Button text='About us' link='/' />
           </div>
         </div>
       </div>
       <div className='w-full h-screen z-0'>
-        <div className='flex flex-row gap-8 relative overflow-x-scroll scrollbar-hide' ref={scrollContainerRef}>
-          <div className='flex flex-col gap-8 h-screen w-full '>
+        <div className='flex flex-row gap-8 relative overflow-x-scroll scrollbar-hide' ref={scrollContainerRef} id='row-scroller'>
+          <div className='flex flex-col gap-8 h-screen w-full'>
             {images.row1.map((image) => (
-              <div key={image.id} className='relative'>
+              <div key={image.id} className={`${image.light && "light-image"} relative`}>
                 <div className='aspect-[3/4] relative h-full w-full'>
                   <Image src={image.image} alt={image.description} fill className='object-cover' sizes='25vw' />
                 </div>
