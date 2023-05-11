@@ -1,35 +1,50 @@
-import { images } from "@/helpers/images";
 import Image from "next/image";
-import Link from "next/link";
 import gsap from "gsap";
-import { useLayoutEffect, useEffect, useRef, useState } from "react";
-const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
-import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 import Button from "./Button";
+import { images } from "@/helpers/images";
+import { useLayoutEffect, useEffect, useRef } from "react";
+
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
+import { Observer } from "gsap/dist/Observer";
+
+gsap.registerPlugin(Observer);
 gsap.registerPlugin(ScrollToPlugin);
+
 const Hero = () => {
   const comp = useRef();
   const scrollContainerRef = useRef(null);
 
   useIsomorphicLayoutEffect(() => {
-    const windowHeight = scrollContainerRef.current.clientHeight;
-    const scrollContainerHeight = scrollContainerRef.current.scrollHeight;
     let ctx = gsap.context(() => {
-      let tl = gsap.timeline();
-      const lmao = () => {
-        setTimeout(() => {
-          console.log("trig");
-          tl.restart();
-        }, 2000);
-      };
-      gsap.to(scrollContainerRef.current, { scrollTo: { y: "max", autoKill: true, onAutoKill: lmao }, duration: 60 });
+      let restartTimer;
+      let t = gsap.to(scrollContainerRef.current, {
+        scrollTo: { y: "max", autoKill: true },
+        duration: 600,
+      });
+      Observer.create({
+        target: scrollContainerRef.current,
+        type: "wheel,touch",
+        onChange: () => {
+          restartTimer && restartTimer.kill();
+          restartTimer = gsap.delayedCall(1, () => {
+            const maxScroll = scrollContainerRef.current.scrollHeight - scrollContainerRef.current.clientHeight;
+            const currentScroll = scrollContainerRef.current.scrollTop;
+            t = gsap.to(scrollContainerRef.current, {
+              scrollTo: { y: "max", autoKill: true },
+              duration: 600 * (1 - currentScroll / maxScroll),
+            });
+          });
+        },
+      });
     }, comp);
     return () => ctx.revert();
   }, []);
 
   return (
     <section className='w-full flex flex-row-reverse gap-8' ref={comp}>
-      <div className='w-full h-screen flex content-center items-center '>
+      <div className='w-full h-screen flex content-center items-center bg-blue-50'>
         <div className='w-full flex flex-col justify-between pt-[24.5vh] pr-[5vw] pb-[3.75rem] pl-[4vw]'>
           <h1 className='text-7xl uppercase'>
             Navigating
@@ -47,7 +62,7 @@ const Hero = () => {
               teaching and knowledge <br />
               transfer to future seafarers.
             </p>
-            <Button text='About us' link='/' />
+            <Button text='About us' link='/about' />
           </div>
         </div>
       </div>
