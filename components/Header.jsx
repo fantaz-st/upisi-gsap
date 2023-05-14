@@ -44,16 +44,16 @@ const Header = () => {
     return () => ctx.revert();
   }, []);
   return (
-    <div className='w-full flex justify-between px-8 h-24 items-center fixed z-40' ref={headerRef}>
+    <div className='w-full flex justify-between px-4 md:px-6 h-24 items-center fixed z-40' ref={headerRef}>
       <div id='logo' className='relative'>
         <Link href='/'>
-          <h1 ref={logoRef} className='text-lg font-semibold text-white tracking-wider'>
+          <h1 ref={logoRef} className='text-lg font-semibold text-black xl:text-white tracking-wider'>
             perfect
           </h1>
         </Link>
       </div>
-      <Link href='/'>
-        <p>Idemo na upise</p>
+      <Link href='https://www.pfst.unist.hr/'>
+        <p>PFST</p>
       </Link>
     </div>
   );

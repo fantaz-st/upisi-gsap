@@ -27,12 +27,12 @@ const Hero = () => {
       const tl2 = gsap.timeline({ paused: true });
       slogans.forEach((slogan, i) => {
         tl2.to(slogans.slice(0, i), {
-          y: `-=80`,
+          y: `-=100%`,
           duration: duration,
         });
 
         tl.from(slogan, {
-          y: 80,
+          y: "100%",
           duration: duration,
           autoAlpha: true,
           ease: "easeInOut",
@@ -85,7 +85,7 @@ const Hero = () => {
 
       let t = gsap.to(scrollContainerRef.current, {
         scrollTo: { y: "max", autoKill: true },
-        duration: 600,
+        duration: 400,
       });
 
       Observer.create({
@@ -98,7 +98,7 @@ const Hero = () => {
             const currentScroll = scrollContainerRef.current.scrollTop;
             t = gsap.to(scrollContainerRef.current, {
               scrollTo: { y: "max", autoKill: true },
-              duration: 600 * (1 - currentScroll / maxScroll),
+              duration: 400 * (1 - currentScroll / maxScroll),
             });
           });
         },
@@ -108,52 +108,49 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className='w-full flex flex-row-reverse gap-8' ref={comp}>
-      <div className='absolute top-0 left-0 w-full h-screen bg-blue-50 block z-30' ref={overlayRef}></div>
-      <div className='w-full h-screen flex content-center items-center bg-blue-50'>
-        <div className='w-full flex flex-col justify-between mx-[5vw] relative'>
-          <div className='relative h-[50vh] overflow-hidden z-40'>
-            <h1 className='text-8xl uppercase slogan absolute bottom-20'>Navigating</h1>
-            <h1 className='text-8xl uppercase slogan absolute bottom-20'>the future</h1>
-            <h1 className='text-8xl uppercase slogan absolute bottom-20'>of maritime</h1>
-            <h1 className='text-8xl uppercase slogan absolute bottom-20'>industry</h1>
-          </div>
-          <div className='ml-auto'>
-            <p className='text-2xl mb-8'>
-              Over 60 years of <br />
-              tradition in training, <br />
-              teaching and knowledge <br />
-              transfer to future seafarers.
-            </p>
-            <Button text='About us' link='/about' />
+    <section ref={comp}>
+      <div className='intro-overlay absolute top-0 left-0 w-full h-screen bg-blue-50 block z-30' ref={overlayRef}></div>
+      <div className='hero w-full flex flex-col xl:flex-row-reverse gap-8'>
+        <div className='hero-left w-full h-[80vh] md:h-screen flex content-center items-center bg-blue-50'>
+          <div className='w-full flex flex-col justify-between mx-[5vw] relative h-[50vh]'>
+            <div className='title relative top-[40%] xl:top-[50%]'>
+              <h1 className='2xl:text-8xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40'>Navigating</h1>
+              <h1 className='2xl:text-8xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40'>the future</h1>
+              <h1 className='2xl:text-8xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40'>of maritime</h1>
+              <h1 className='2xl:text-8xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40'>industry</h1>
+            </div>
+            <div className='subtitle'>
+              <p className='text-xl xl:text-2xl mb-8'>Over 60 years of tradition in training, teaching and knowledge transfer to future seafarers.</p>
+              <Button text='About us' link='/about' />
+            </div>
           </div>
         </div>
-      </div>
-      <div className='w-full h-screen z-0'>
-        <div className='flex flex-row gap-8 relative overflow-x-scroll scrollbar-hide' ref={scrollContainerRef} id='row-scroller'>
-          <div className='flex flex-col gap-8 h-screen w-full' ref={row1Ref}>
-            {images.row1.map((image) => (
-              <div key={image.id} className={`${image.light && "light-image"} relative`}>
-                <div className='aspect-[3/4] relative h-full w-full'>
-                  <Image src={image.image} alt={image.description} fill className='object-cover' sizes='50vw' />
+        <div className='hero-right w-full h-screen z-0'>
+          <div className='flex flex-row gap-8 relative overflow-x-scroll scrollbar-hide' ref={scrollContainerRef} id='row-scroller'>
+            <div className='flex flex-col gap-8 h-screen w-full' ref={row1Ref}>
+              {images.row1.map((image) => (
+                <div key={image.id} className={`${image.light && "light-image"} relative`}>
+                  <div className='aspect-[3/4] relative h-full w-full'>
+                    <Image src={image.image} alt={image.description} fill className='object-cover' sizes='50vw' />
+                  </div>
+                  <p className={`uppercase text-sm md:text-base font-bold absolute bottom-0 px-2 pb-2 md:px-6 md:pb-6 ${image.light ? "text-black" : "text-white"}`}>
+                    {image.title} • <span className='normal-case font-normal'>{image.description}</span>
+                  </p>
                 </div>
-                <p className={`uppercase font-bold absolute bottom-0 px-6 pb-6 ${image.light ? "text-black" : "text-white"}`}>
-                  {image.title} • <span className='normal-case font-normal'>{image.description}</span>
-                </p>
-              </div>
-            ))}
-          </div>
-          <div className='flex flex-col gap-8 h-screen w-full' ref={row2Ref}>
-            {images.row2.map((image) => (
-              <div key={image.id} className='relative'>
-                <div className='aspect-[2/3] relative h-full w-full'>
-                  <Image src={image.image} alt={image.description} fill className='object-cover' sizes='50vw' />
+              ))}
+            </div>
+            <div className='flex flex-col gap-8 h-screen w-full' ref={row2Ref}>
+              {images.row2.map((image) => (
+                <div key={image.id} className='relative'>
+                  <div className='aspect-[2/3] relative h-full w-full'>
+                    <Image src={image.image} alt={image.description} fill className='object-cover' sizes='50vw' />
+                  </div>
+                  <p className={`uppercase text-sm md:text-base font-bold absolute bottom-0 px-2 pb-2 md:px-6 md:pb-6 ${image.light ? "text-black" : "text-white"}`}>
+                    {image.title} • <span className='normal-case font-normal'>{image.description}</span>
+                  </p>
                 </div>
-                <p className={`uppercase font-bold absolute bottom-0 px-6 pb-6 ${image.light ? "text-black" : "text-white"}`}>
-                  {image.title} • <span className='normal-case font-normal'>{image.description}</span>
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
