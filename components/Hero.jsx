@@ -20,16 +20,18 @@ const Hero = () => {
   const row2Ref = useRef(null);
 
   useIsomorphicLayoutEffect(() => {
+    let logo = document.getElementById("logo");
+
     let ctx = gsap.context(() => {
       const slogans = gsap.utils.toArray(".slogan");
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({ delay: 0.5 });
       const duration = 0.5;
       const tl2 = gsap.timeline({ paused: true });
+
       slogans.forEach((slogan, i) => {
         tl2.to(slogans.slice(0, i), {
           y: `-=100%`,
           duration: duration,
-          delay: 0.2,
         });
 
         tl.from(slogan, {
@@ -60,27 +62,6 @@ const Hero = () => {
         ease: "easeOut",
         delay: -0.4,
       });
-
-      /* slogans.forEach((slogan, i) => {
-        const tl2 = gsap.timeline({ paused: true });
-
-        tl2.to(slogans.slice(0, i), {
-          y: `-=50`,
-          duration: 0.55,
-        });
-
-        tl.from(slogan, {
-          autoAlpha: true,
-          y: 50,
-          duration: 0.55,
-          ease: "none",
-          onStart: () => {
-            tl2.play();
-          },
-        });
-      });
- */
-      // -------------------------------------------------------------------------------
 
       let restartTimer;
 
@@ -115,12 +96,12 @@ const Hero = () => {
         <div className='hero-left w-full h-[80vh] md:h-screen flex content-center items-center bg-blue-50'>
           <div className='w-full flex flex-col justify-between mx-[5vw] relative h-[50vh]'>
             <div className='title relative top-[40%] xl:top-[50%]'>
-              <h1 className='2xl:text-8xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40'>Navigating</h1>
-              <h1 className='2xl:text-8xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40'>the future</h1>
-              <h1 className='2xl:text-8xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40'>of maritime</h1>
-              <h1 className='2xl:text-8xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40'>industry</h1>
+              <h1 className='3xl:text-7xl 2xl:text-6xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40 slogan-text'>Navigating</h1>
+              <h1 className='3xl:text-7xl 2xl:text-6xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40 slogan-text'>the future</h1>
+              <h1 className='3xl:text-7xl 2xl:text-6xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40 slogan-text'>of maritime</h1>
+              <h1 className='3xl:text-7xl 2xl:text-6xl xl:text-5xl text-5xl font-[500] uppercase slogan absolute z-40 slogan-text'>industry</h1>
             </div>
-            <div className='subtitle'>
+            <div className='subtitle absolute top-[90%]'>
               <p className='text-xl xl:text-2xl mb-8'>Over 60 years of tradition in training, teaching and knowledge transfer to future seafarers.</p>
               <Button text='About us' link='/about' />
             </div>
