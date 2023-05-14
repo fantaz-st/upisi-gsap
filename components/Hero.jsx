@@ -29,6 +29,7 @@ const Hero = () => {
         tl2.to(slogans.slice(0, i), {
           y: `-=100%`,
           duration: duration,
+          delay: 0.2,
         });
 
         tl.from(slogan, {
